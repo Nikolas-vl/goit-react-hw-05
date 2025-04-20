@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_TOKEN = import.meta.env.VITE_THE_MOVIE_DB_API_KEYж;
+const API_TOKEN = import.meta.env.VITE_THE_MOVIE_DB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const axiosInstance = axios.create({
@@ -15,12 +15,6 @@ const axiosInstance = axios.create({
     page: 1,
   },
 });
-
-const options = {
-  headers: {
-    Authorization: API_TOKEN,
-  },
-};
 
 export const getTrendingMovies = async (page = 1) => {
   try {
