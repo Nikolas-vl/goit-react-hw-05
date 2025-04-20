@@ -1,48 +1,23 @@
-import Description from './Description/Description';
-import Options from './Options/Options';
-import Feedback from './Feedback/Feedback';
-import Notification from './Notification/Notification';
-import { useState, useEffect } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import HomePage from '../pages/HomePage';
+import NotFoundPage from '../pages/NotFoundPage';
+import MoviesPage from '../pages/MoviesPage';
+import MovieDetailsPage from '../pages/MovieDetailsPage';
 
 const App = () => {
-  const [feedback, setFeedback] = useState(() => {
-    const savedData = localStorage.getItem('feedback');
-    if (savedData) {
-      try {
-        return JSON.parse(savedData);
-      } catch (error) {
-        console.error('Error parsing feedback from localStorage:', error);
-        return { good: 0, neutral: 0, bad: 0 };
-      }
-    }
-    return { good: 0, neutral: 0, bad: 0 };
-  });
-
-  const updateFeedback = feedbackType => {
-    setFeedback(prev => ({
-      ...prev,
-      [feedbackType]: prev[feedbackType] + 1,
-    }));
-  };
-
-  const resetFeedback = () => {
-    const reset = { good: 0, neutral: 0, bad: 0 };
-    setFeedback(reset);
-  };
-
-  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
-  const positiveFeedback = totalFeedback > 0 ? Math.round((feedback.good / totalFeedback) * 100) : 0;
-
-  useEffect(() => {
-    localStorage.setItem('feedback', JSON.stringify(feedback));
-  }, [feedback]);
-
   return (
-    <>
-      <Description />
-      <Options updateFeedback={updateFeedback} reset={resetFeedback} total={totalFeedback} />
-      {totalFeedback > 0 ? <Feedback feedback={feedback} total={totalFeedback} positive={positiveFeedback} /> : <Notification />}
-    </>
+    <div>
+      <nav>
+        <NavLink to={'/'}>Home</NavLink>
+        <NavLink to={'/movies'}>Movies</NavLink>
+      </nav>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/movies' element={<MoviesPage />} />
+        <Route path='/movies/:movieId' element={<MovieDetailsPage />} />
+        <Route path='*' element={<NotFoundPage />} />
+      </Routes>
+    </div>
   );
 };
 
