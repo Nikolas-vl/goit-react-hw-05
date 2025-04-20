@@ -1,0 +1,12 @@
+.btn{
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.btn button{
+  padding-left: 4px;
+  padding-right: 4px;
+}
